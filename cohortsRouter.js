@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     db('cohorts')
         .then(data => {
             res.status(200).send(data);
-        }).catch(err => res.status(200).send(err));
+        })
 });
 
 router.get('/:id', (req, res) => {
@@ -28,22 +28,7 @@ router.get('/:id', (req, res) => {
         .first()
         .then(data => {
             res.status(200).send(data);
-        }).catch(err => res.status(200).send(err));
-});
-
-router.get('/:id/students', (req, res) => {
-    db('cohorts')
-        .where({
-            id: req.params.id
-        })
-        .join('students', 'cohorts.id', 'students.cohort_id')
-        .then(students => {
-            res.status(200).json(students)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err)
-        })
+        });
 });
 
 router.put('/:id', (req, res) => {
@@ -52,17 +37,6 @@ router.put('/:id', (req, res) => {
             id: req.params.id
         })
         .update(req.body)
-        .then(data => {
-            res.status(200).json(data);
-        }).catch(err => res.status(200).send(err));
-});
-
-router.delete('/:id', (req, res) => {
-    db('cohorts')
-        .where({
-            id: req.params.id
-        })
-        .del()
         .then(data => {
             res.status(200).json(data);
         }).catch(err => res.status(200).send(err));
